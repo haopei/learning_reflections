@@ -1,0 +1,4 @@
+gzip
+optimize images
+render blocking resources
+inline critical css

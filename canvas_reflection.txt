@@ -1,0 +1,2 @@
+Canvas supports only rectangle shape. All other shapes must be created combining one or more paths. Path drawing functions make it possible to draw complex shapes. 
+

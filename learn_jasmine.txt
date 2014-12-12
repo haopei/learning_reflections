@@ -1,0 +1,30 @@
+
+
+GENERAL
+
+  Format:
+    describe()
+      |- it()
+        |- expect()
+  
+  The suite is what is being tested. A suite contains specs withe expectations.
+
+  Suites (describe)
+    Test begins with: describe(string, function)
+      the string is the name of the test suite (that thing being tested)
+      the function implements the suite
+
+  Specs (it)
+    Begins with it(string, function)
+      string is title of spec
+      function is the spec, or test.
+
+    A spec contains one or more expectations that tests the state of the code
+
+    An expectation is an assertion that is either true or false. Specs with all true expectations will pass the spec, while one false will fail. 
+
+  this
+    Each spec's it/expect/beforeEach has an empty 'this' object which is set back to empty for the next spec.
+
+  Spy
+    A spy is a test double function. A spy can stub any function and track calls to it and all arguments. A spy only exists in the describe and it blocks it is defined, and will remove after each spec.

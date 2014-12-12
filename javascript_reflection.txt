@@ -1,0 +1,247 @@
+Goal: To Create an interactive resume, while doing the JS Basics course.
+
+General
+	- The javascript interpreter takes the code you write and prepare it to become machine codes.
+	- Javascript has no explicit class definition, unlike python.
+	- Functions are first class objects, and can be passed anywhere. 
+	- Encapsulation: Objects can encapsulate functions as well. ie, functions can be inside var obj = {}
+	- All variable declarations (including functions) get moved to the top of their scope.
+	- A closure is any function which remains available after its outer scopes have already returned. 
+	
+Objects
+	- Objects may be created using object literal:
+		var my_obj = {}
+	- Items inside objects can be defined using:
+		dot notation: bio.name = "Haopei";
+		bracket notation: bio['age'] = 26;
+	- Items inside objects can be accessed via bracket notations ALWAYS, while dot notation access has some special rules: property-3, property 3, 8property, property[], property()
+	- the 'new' keyword before a function creates a new object. Whenever this keyword is used, the function will run in 'construction mode'. In constructor mode, the intepreter inserts lines of code when an object is instantiated. 
+	
+	The 'Object Prototype' is the top-level object that every js object delegates to, and provides the shared properties of all objects in entire system. This is where all the basic methods are provided for all objects.
+
+	Most objects created are delegated from the Object Prototype. Special objects like Arrays delegate from Array Prototype (which contains index methods etc), which in turn delegate from the Object Prototype
+
+	The constructor property inside the Object Prototype makes it easy to tell what functions were used to create an object. Example:
+		var obj = {}
+		obj.constructor
+
+	=== compares object identity and not value equality.
+
+
+Functions
+	- A function declaration creates a new scope within it.
+	- encodeURI(HTML) // encodes html strings
+	- [string].slice(begin[,end])
+	- [string].replace([old],[new])
+	- When a function is decleared without var ( example: function myfunc(){} ), its definition and declaration is moved to the top of the scope. Therefore, you can call the function ( myfunc() ) before where the function is written.
+	- When a function is declared as a variable, only its declaration is moved to the top, but its definition remains where you write this function. You can only call this function after the place of its code.
+	- The executional context of a function appears inside the context in which it was created. An inside nested function, which is then stored as a global variable, and when executed, will create its executional context inside its parent's context. It would also have the scope access of its parent function even if it had already returned. 
+	- Input parameters to a function only has binding when that function is running.
+
+Scope
+	- `if` statements do not create a new scope, so it does not limit access of its contained variables.
+
+Jargon
+	document
+		Refers to the webpage in its current state.
+		The DOM contains all information about the webpage's visible elements. The document is the DOM.
+	undefined: 
+		The value does not exist in the intepreter, and it does now know what you are referring to.
+	null
+		The variable exists but holds no value.
+	`new` keyword
+		This keyword creates a new instance of an object
+			var Car = function(name){};
+			var toyota = new Car('Toyota')
+
+OOJS
+	this keyword
+
+		console.log(this) //global or window object
+
+		When a function is a property of an object, and when the function in invoked, the 'this' keyword is bound to the object which is being looked up upon. During the 'call time' of the function, if that function is bound to an object, then the keyword 'this' refers to that object. The keyword refers to the obj object in this example: obj.fn(a,b); 
+
+		If fn(a,b) is not a function inside an object, and is a regular function, then the 'this' in fn(this,a,b) is bound to the global object.
+
+		By using the fn.call() method, we override the default binding to global and change override the value of which 'this' is bound to. 
+			Example:
+				var fn = function(a,b){
+					console.log(this,a,b);
+				}
+				
+				fn(this,a,b);		// returns: global object, a, b
+				y = "yellow";
+				fn.call(y,a,b)	// returns "yellow", a, b
+
+		When the keyword 'this' is bound to an object, we will have access to the entire object. This saves a lot of in-memory space. Example:
+
+			var o = {"msg": "hi"}
+			o.fn = function(a){console.log(a);}
+			o.fn(o.msg); //hi
+
+	Object methods as callback functions
+		CB functions are inherently designed to be invoked by the system to which you pass them. For this reason, you generally have little control of what the bindings will be for the parameters you pass in.
+
+		Given the function:
+
+			var fn = function(a,b) {
+				console.log(this, a, b);
+			}
+			r.method = fn;
+
+			var setTimeout = function(callback, 1000) {
+				wait(1000);
+				callback();
+			}
+
+			setTimeout(r.method, 1000);
+
+			Even though r.method is given as the callback parameter inside setTimeout(r.method,1000), the callback() invocation inside setTimeout will be a 'free calling function', and will not so 'this' will not be bound to the r object. Since it is not bound to any object, it defaults to bind to `global`. 
+
+			One way around this is to create a function scope inside callback:
+
+				setTimeout(function(){
+					r.method();
+				}, 1000);
+
+
+		One way to solve this problem is to wrap a CB function inside a generic function which acts as a paramater of the parent function. Example
+
+		setTimeout(function(){
+			obj.method(a,b);
+		}, 1000);
+
+	Prototype Chains // var obj = Object.create(fallback_object)
+
+		(Not to be confused with an object's .prototype object which holds functions of that object.)
+		Object prototyping is useful for code sharing and saving memory.
+		Allows an object to inherit the properties of another object, such that if a property is requested from the new object, and this property is not available, the lookup activates the prototype relationship to see if the property being looked up is available in the parent object. Example:
+
+		var obj1 = {'a': 1}
+		var obj2 = Object.create(obj1);
+		obj2.b = 2
+		console.log(obj2.a) // logs 1
+
+		There is a top-level object that all objects eventually delegates to. This is the Object Prototype
+
+	Classes VS Functions
+		The class builds the object that it is going to augment. The decorator function accepts an object, that it is going to augment, as an input paramenter. 
+
+	How to create a class
+		1. Declare function with Capitalized name. Example var Car = function(){}
+		2. Build and return an object
+		3. Separate this class's methods inside a methods object.
+		4. Let the function delegate failed lookups from a prototypal object.
+
+	Methods inside a class
+		Methods can be stored inside an object in the first place, and then included in its class. Example:
+
+		var Car = function(loc) {
+			obj = Object.create(Car.methods); // delegates from the Car.methods object
+			obj.loc = loc;
+			return obj
+		};
+
+		Car.methods = {
+			move: function(){
+				this.loc++;
+			},
+			reverse: function(){ ... },
+			park: function(){ ... }
+		}
+
+	Default Prototypal Object
+		Whenever a function is create, a default `prototype` object is created automatically for you to contain methods, just in case you use the function to build instances of a class. This does not alter the functionality or the in-memory model, and is for conventional and cosmetic purposes. 
+
+		var Car = function(loc) {
+			obj = Object.create(Car.prototype); // delegates from Car.prototype
+			obj.loc = loc;
+			return obj
+		};
+
+		Car.prototype.move = function(){
+				this.loc++;
+			}
+
+
+		Each .prototype object comes with a .constructor object which points back to the Object which created the instance. Example: 
+		
+		var toyota = Car(12);
+		console.log(toyota.constructor) // Car
+		console.log(toyota instanceof Car) // true
+
+
+		Car.prototype = {
+			move: function(){...},
+			reverse: function(){...},
+			park: function(){...}
+		}
+
+	Pseudoclassical Patterns
+		uses the new keyword to create new objects, and implicitly includes the functionality of creating an object which delegates for the parent object and returns that object. 
+	Pseudoclassical Pattern & Construction Mode:
+		When you instantiate an object with the 'new' keyword, your function runs in 'Construction Mode'. This allows the interpreter to automatically insert some lines of codes into the function implicitly. This is the pseudoclassical pattern.
+
+		var Car = function(loc) {
+			this.Object.create(Car.prototype); // automatically inserted
+			this.loc = loc; // only this line is explicitly written
+			return this; // automatically inserted
+		}
+
+		Car.prototype.reverse = function(){
+			return this.loc--;
+		}
+
+		var toyota = new Car(3); // new keyword is used to instantiate the Car object
+
+
+	Subclasses
+		
+		// 1. Creating the super class	
+			
+			var Animal = function(speak) {
+				this.Object.create(Animal.prototype);	// automatic
+				this.speak = speak;						// explicit
+				return this;							// automatic
+			}
+
+			Animal.prototype.move = function(){...}
+
+		// 2. Create the subclass
+
+			var Dog = function(speak) {
+				this.Object.create(Dog.prototype); // auto
+				Animal.call(this, speak); 
+				return this // auto
+			}
+
+			// var spot = new Dog('woof');
+			// spot.call(); // 'woof'
+
+			// Dog.prototype currently delegates from top level Object.prototype
+
+			// func.call(this[,arg1[,arg2[, ...]]])
+				When this is used inside a subclass, calls and executes the superclass function (func), and binds its 'this' keyword to the subclass object. In this example,
+				Animal.call(this, speak) will take 'this' to refer to the instance of the Dog object and runs the Animal function (this.speak = speak) to the given parameter 'speak' parameter inside Dog. 
+
+		// 3. Inherit prototype from Superclass
+
+			Dog.prototype = Object.create(Animal.prototype);
+			// No longer delegates from Object.prototype
+
+		// 4. Create the subclass object's own .constructor
+
+			
+
+		// 5. Add additional functions to subclass
+
+			Dog.prototype.lick = function(){...}
+
+
+
+
+
+
+
+		
+

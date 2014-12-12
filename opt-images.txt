@@ -1,0 +1,20 @@
+
+VECTOR VS RASTER
+	Vector uses lines, points, polygons to represent an image, while raster represents an image by encoding the individual values of each pixel within a rectangular grid.
+
+	Vectors deliver sharp results at every resolution and zoom settings. 
+
+	Vectors are suitable for simple geometric shapes. Images like photography may be too complex for vectors. 
+
+	Raster images better handle 'photo' images using formats like gif, jpeg, png, or the newer jpeg-xr and WebP. 
+
+	Raster images cannot maintain quality when zoomed.
+
+
+HIGH RES SCREENS
+	High resolution screens have several pixels per css pixel. Image optimization is same regardless of screen res.
+
+ONLY SHIP NECESSARY PIXELS
+	Avoid shipping the size of an image which is larger in dimensions than what is required to be displayed on the browser. 
+
+	

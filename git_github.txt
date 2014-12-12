@@ -1,0 +1,237 @@
+GENERAL
+
+There are four areas: working directory, staging area local repository and remote repository.
+
+When you first init a repository, a master branch is not yet created. You must make your first commit before a master branch is created.
+
+
+JARGON
+
+commit
+	A commit is a snapshot of all the files in your repository at the time you choose to make the commit. When you make a commit, you commit all files in the staging area to the repository. Each commit stores a reference to its parent (the previous commit).
+
+staging area
+	the place between your local working directory and the repository. Contains files to be committed.
+
+HEAD 
+
+	The HEAD is simply refers to the 'current commit' being checked out.
+	
+	Head is what Git calls the commit you are currently on. You can “detach” the HEAD by switching to a previous commit.
+
+	When you checkout a single commit (git checkout commit_id), you will be at a 'detached head' state because you no longer point at a branch. When you check out a branch, you are pointing at the commit through the branch.
+
+tip of a branch
+	the last commit of a branch.
+
+remote
+	a remote in your local repository is a reference to another repository, usually on github. When you clone a repository from github, a remote is set up automatically.
+
+origin
+	the usual name of our remote github repository
+
+master
+	the default 'main' branch
+
+git stash:
+	Sometimes when you go to pull you may have changes you don't want to commit just yet. One option you have, other than commiting, is to stash the changes.
+
+	Use the command 'git stash' to stash your changes, and 'git stash apply' to re-apply your changes after your pull.
+
+clone
+	A clone is a copy of a github repository into your local machine
+
+fork 
+	A fork is a clone of a github repository into your repository.
+
+branch
+	A branch, or label, is a series of commits which are separate from the master until merge. 
+
+pull request
+	a 'pull request' (or merge request) is when a user submits a branch to be merged into the main master branch. The user is 'requesting' the author to 'pull' that change into the master
+
+STATES
+	
+	Staging Area
+		A place where we can group our files before committing them to our git
+
+	Staged
+		Files are ready to be committed
+	
+	Unstaged
+		Files with changes which had not been prepared to commit
+	
+	Untracked
+		Files which are not tracked by git yet. Usually new file.
+
+	Deleted
+		File has been deleted and is waiting to be removed from git.
+
+
+
+COMMANDS
+
+$ git log [--stat] [--summary]
+	shows list of recent commits. Commits store reference to its parent in the branch, so this command shows all commits and their respective parents. 'Rogue' commits will be ignored. 
+
+	$ git log origin/master
+		shows commits from the local version of the remote repository. Usually used after $ git fetch
+
+$ git status
+	shows status of staging area and new files.
+
+$ git diff <repo_1> <repo_2> 
+	shows difference between repo 1 and 2 (the later repo)
+	
+	$ git diff [no paramenters]
+		compares working directory with staging area
+
+	$ git diff --staged
+		compares files in the staging area with the files in the repository's most recent commit
+
+
+$ git add <filename> 
+	Adds file in the staging area to be committed
+	$ git add -A . Add all files in current directory
+		-A ensures even deletions are included.
+
+$ git reset <filename>
+	Removes file from staging area.
+
+$ git commit -m "<commit_message>"
+	Commits files to the git repository.
+
+$ git push [-u] origin master
+	Pushes our local master repo into the remote origin repo. [-u] tells git to remember the parameters so next time you simply run `git push`
+
+$ git pull origin master 
+	Pulls updates from your remote to local master
+	
+$ git clone <repository_url.git>
+	Copys a remote repository to your local machine.
+
+$ git checkout <prev_commit_id>
+	Restoring a previous version of a commit. Change files to how they were at the time of a commit. 
+	$ git checkout -- <target>
+		Files can be changed back to how they were at the last commit by using this command. '--' resolves branch name ambiguity.
+
+$ git branch [-a]
+	shows all branches. [-a] shows local copies of all remote branches
+
+$ git branch <branch_name>
+	Creates a new branch 
+
+$ git checkout [-b] <branch_name>
+	Switches to the specified branch name. [-b] lets you create and checkout the new branch same time.
+	Equivalent to these two commands
+		$ git branch <new_branch_name>
+		$ git checkout <new_branch_name>
+
+$ git merge <master> <coin>
+	merges 'coin' branch into 'master'. 
+	First, run $ git checkout master
+
+$ git branch -d <branch>
+	Deletes specified branch/label. git won't let you delete a branch unless it has been merged. You can use --f or -D instead to force delete. If you delete a branch before merge, then all of its commits would be lost. Therefore, merging ensures that that the newly created commit would have access to the previous branches; and the previous labels can be removed safely. 
+
+$ git push origin --delete <branch_name>
+	deletes a remote branch
+
+$ git show <commit_id>
+	Shows information about a commit's parent. Useful for checking commit after a merge where a commit's parent is not obvious.
+
+$ git rm [-r] <filename>
+	Deletes file from repository. [-r] deletes recursively.
+
+$ git reset <filename_in_staging_area>
+	unstages a file in the staging area
+
+	$ git reset --hard
+		discards any file changes from either the working directory or staging area. [beware of this]
+
+$ git remote [-v]
+	see all current remotes. -v: verbose
+
+$ git remote add <remote_name> <repository.git url>
+	remote_name: remote to be created; remote name refers to the repository on github
+
+$ git push <remote> <branch_to_push>
+	push a branch to a remote repository. Remote is usually named 'origin'. Example: 
+	
+	$ git push origin master
+
+	...where origin is the name of the remote, and master is the branch to be pushed to that remote.
+
+$ git pull <remote> <branch_to_pull>
+	pulls changes from remote repository. Example:
+	$ git pull origin master
+
+$ git fetch
+	fetches all branches from the origin remote
+
+$ git fetch <remote_name>
+	fetch all branches from a given remote
+
+MERGING
+	Git knows what the code looks like before two branches diverge (that is, the commit before the diverge). This information is required for two branches to merge. 
+
+	The merge of two branches form a new commit. The new commit, created via merge, stores information about both its parents (the tips of two branches prior to the merge).
+
+	If branch B is 'merged into' branch A (usually the master branch), then it is said that the new commit is the new tip of branch A. The new commit will have all the changes from both branch B and A.
+
+	When two persons are working on one file, git decides which code from both persons to put in the final file. For this to happen, we need to know the original file before any changes by both persons. If the original file contains line X, and Woz's file does NOT have X while Mike's file has X, then perhaps Woz has removed X, and therefore X should NOT appear in the new file. Conversely, if the original file never contained X, and Mike's file has X, then X should be in the new file. 
+
+	If both persons have just 'modified' line X, then the result of X in the final commit is unknown, and merge conflicts occur.
+
+	The new merged commit will have access to all commits from both branch A and branch B. Once a merge has happened, we can remove the branch B (deleting its label, but not its commits)
+
+	When $ git log after a new merge, the commits will be listed according to created date. 
+
+HOW TO MERGE
+	$ git checkout master // branch to keep
+	$ git merge master coin (confirm merge msg)
+	$ git branch -d coin // deletes coin label
+
+MERGE CONFLICT
+	
+	HEAD section
+		your code
+
+	master section
+		code inside master
+
+	'merged common accesters' section
+		the original code which from which modifications were made
+
+	Resolve the conflict by understanding what the other person is trying to do, before talking to that person if necessary. Once resolved, add the modified file to staging area and commit.
+
+Fetch vs Pull 
+	https://www.udacity.com/course/viewer#!/c-ud775/l-3105028581/e-3073678911/m-3073678912
+
+When you have a remote set up, git stores local copies of all the remote branches, which each contains the state of the remote branch as the last time you push or pulled the branch. You could also update just the local copy of your remote branch by running 
+
+	$ git fetch remote_name
+
+...this way if you are offline for a while, you could update the local copy to the remote before you leave and then you will still have access to any update that were made to the remote since you last synced up with it, although your state might get a little old. This local remote branch can be referred to via 'origin/master'
+
+When you 'pull' a branch from a remote, two things happen: 
+	1. The remote branch gets 'fetched' and the label gets updated
+	2. The local copy of the remote branch gets merged with the local copy of repository, which also updates the branch name to point to the new merge commit
+
+	Therefore, $ git pull master is the same as:
+		$ git fetch master 
+		$ git merge master origin/master
+
+FAST FORWARD MERGE
+	This is when you merge two commits and one is the ancestor of the other (one commit is reachable by the other). If you merge a commit A into its parent commit B, then FFM takes the label from the parent commit B and moves it to A.
+
+README.MD
+	Leave this out when creating a repository in github, if your existing local repository already has commits. 
+
+QUESTIONS
+
+What is the alternative of Fast foward merge? WHy is it required? Why does it happen?
+	
+	git remote add origin https://github.com/try-git/try_git.git
+
+	Difference between unstaged and untracked files.

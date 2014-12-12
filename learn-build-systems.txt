@@ -1,0 +1,102 @@
+
+ABOUT
+	Setting up a task building workflow environment using npm, gulp, bower, sass.
+
+NPM (Package Manager)
+	The node.js package manager used to download project dependencies into package.json.
+
+	Used to download gulp dependencies inside the package.json
+
+	Download and install using direct download on nodejs.org
+
+	Node is used to run gulp
+
+	The 'name' property inside the package.json becomes part of a URL, and an argument in the commandline, and a folder name. The name and version number form an identifier that is assumed to be unique. 
+
+	Install all dependencies
+		$ npm install
+
+
+GULP (Task Runner) 
+
+	Install gulp using npm
+		$ npm install gulp -g
+
+	Install a gulp plugin in project dir
+		$ npm install gulp-uglify --save-dev //save as development dependency
+
+	gulp.run()
+		runs tasks with maximum concurrency
+
+
+SASS 
+	Install sass:
+		gem install sass
+
+BOWER (Frontend Library Package Manager)
+	
+	initialize bower.json for collaboration
+		$ bower init
+
+	Install all project dependencies from bower.json
+		$ bower install 
+
+	install a library
+		$ bower install <library>#<version_number> [-s]
+		[-s] saves to bower.json file
+		Example: bower install jquery#1.9.2 -s
+
+	Check bower list of installed libraries per project
+		$ bower list [--path]
+
+
+	When bower is asked to install a library with dependencies, it also installs the dependencies automatically. For example, installing backbone.js will also install its dependency, underscore.js. Uninstalling backbone will also remove underscore. 
+
+GETTING STARTED
+	
+	Create project folder and subfolders
+
+	Init git and add .gitignore file
+		$ git init
+
+	Create the package.json:
+		$ npm init
+
+	Install gulp
+		$ npm install gulp --save-dev
+
+	Install bower
+		$ npm install bower -g
+
+	Create gulpfile.js in root directory
+		- require gulp and other plugin dependencies 
+		- gulp runs default task
+		- gulp.src() reads files
+		- gulp.dest() writes files
+
+STRUCTURE
+
+src/
+	files/
+		fonts/
+		images/
+	js/
+		collections/
+		controllers/
+		main.js
+	sass/
+		modules/
+		variables.scss
+		main.scss
+	templates/
+		partials/
+		index.jade
+
+builds/
+	development/
+		fonts/
+		images/
+		css/
+		js/
+		index.html
+	production/

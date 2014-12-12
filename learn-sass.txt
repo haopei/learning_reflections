@@ -1,0 +1,35 @@
+
+
+GENERAL
+	
+	_partials.scss
+		These are files which are to be imported into the main css file. Partials are named with a _leading_underscore.css which indicates to Sass that it is not to be created into its own css file.
+
+	@import
+		Import partials into your base.css with the @import <file_name> code. For example: Given base.sass and _reset.sass, import using:
+			@import reset
+
+	@mixin
+		A mixin lets you make a group of CSS declarations that you want to reuse throughout the site. SCSS Mixing Example:
+
+			@mixin border-radius($radius) {
+				-webkit-border-radius: $radius;
+				-moz-border-radius: $radius;
+				-ms-border-radius: $radius;
+				border-radius: $radius;
+			}
+
+			div { @include border-radius(10px); }
+
+	@extend (or, inheritance)
+		Takes an existing style, and extends it into another style. Example:
+
+			.message { color: red; border: 2px solid red; }
+			.success { @extend .message; font-size: 12px; }
+
+	Operators
+		Perform computations inside styles. Example:
+
+			.container {width: 100%; }
+			.left { width: 600 / 960 * 100%; }
+			.right { width: 300 / 960 * 100%; }

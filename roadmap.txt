@@ -1,0 +1,14 @@
+
+
+[x] P1 Mockup to Website
+
+[x] P2 Interactive Resume
+	[] Customization
+	[] learn enough Github to submit project
+
+
+[] P3 Classic Arcade Game Console
+[] P4 Website Optimization
+[] P5 Neighbourhood Map
+[] P6 ?
+[] P7 ?

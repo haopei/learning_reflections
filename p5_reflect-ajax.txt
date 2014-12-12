@@ -1,0 +1,16 @@
+AJAX - Asynchronous Javascript and XML
+
+JARGON
+	
+	Callback Functions
+		When a browser sends a request to the server and receives a response, callback functions take that response and does something with it. Callback functions are a set of instructions to be performed on the response received. 
+
+
+GENERAL
+	
+	AJAX requests can be fired at any time (before or after page load). Response often involves html to be inserted into the page.
+
+jQuery
+	
+	var $greeting = $('#greeting');
+	The $variable name prefix is used to identify that it is a jquery object, and serves no functionality beyond that.
