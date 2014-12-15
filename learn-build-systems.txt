@@ -13,8 +13,14 @@ NPM (Package Manager)
 
 	The 'name' property inside the package.json becomes part of a URL, and an argument in the commandline, and a folder name. The name and version number form an identifier that is assumed to be unique. 
 
+	Start package.json
+		$ npm init
+
 	Install all dependencies
 		$ npm install
+
+	Install single dependency
+		$ npm install <package> [-S]
 
 
 GULP (Task Runner) 
@@ -42,9 +48,9 @@ BOWER (Frontend Library Package Manager)
 		$ bower install 
 
 	install a library
-		$ bower install <library>#<version_number> [-s]
-		[-s] saves to bower.json file
-		Example: bower install jquery#1.9.2 -s
+		$ bower install <library>#<version_number> [-S]
+		[-S] saves to bower.json file
+		Example: bower install jquery#1.9.2 -S
 
 	Check bower list of installed libraries per project
 		$ bower list [--path]

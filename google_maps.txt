@@ -1,0 +1,56 @@
+GOOGLE MAPS API
+===============
+
+GENERAL
+
+    There are base maps and styled maps.
+
+    Satellites allow for hi-res imagery, and 45 degrees pics.
+
+    Streets Map lets you browse through streets with 360 degrees panorama.
+
+    Places add location context to your maps. 
+
+    Routing: finding best routes from A to B.
+
+    Data-visualisation brings life into google maps with animation. 
+
+    The Lat value ranges between -90 and 90 inclusively. A lat value of -100 will be set to -90, and a value of 120 will be set to 90.
+
+    Lng ranges between -180 and 180. Because longitudes wrap around the globe, a value of (-190) will be set to 170 and 190 will be set to -170.
+
+    Geocoding: the process of converting street addresses to geographical coordinates.
+
+    Each line of latitude (parallel lines), or each degree, separates about 69 miles of distance. There are 60 minutes in one degree. Latitudes are measured relative to the equator (0 degrees). Longitudes are not parallel, and all intersect at the north and south poles.
+
+
+Class Objects:
+    
+    LatLng: a point in geographical coordinates using lat/lng. You cannot modify the coordinates of a LatLng object. If you want to compute another point, you need to create a new one. 
+    google.maps.LatLng(lat,lng)
+
+
+DRAWING USING OVERLAYS
+
+    Overlays are objects added to the map to designate points, lines, areas or a collection of objects. Overlay objects are tied to longitude and latitude coordinates so they move when dragged or map is zoomed. Overlay types include: markers, info windows, polylines, polygons, circles/rectangles, symbols, ground overlays, custom overlays.
+
+    Markers: indicate single locationso n a map. Customizable with custom image and colour. Works with Info Windows to provide contextual information.     
+
+    Symbols are svgs which can be used to customize the images of markers or add images to polylines. See: Symbols.
+
+    SHAPES
+
+        Shapes are objects on a map tied to lat/lng coordinates. Shapes are available in: lines, polygons, circles, rectangles. 
+
+        Polylines are used to draw lines which represent an ordered sequence of locations. 
+
+        Polygons represent an area on a map using arbitrary shapes. Like polylines, polygons represent an ordered sequence of locations. Unlike polylines, polygons define a region that they enclose. 
+
+    Ground Overlays: used to place an image on a map
+
+
+References
+
+    Google Maps API Reference
+    https://developers.google.com/maps/documentation/javascript/reference
+
