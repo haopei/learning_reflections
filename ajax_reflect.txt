@@ -1,0 +1,18 @@
+GENERAL
+
+  An ajax request works with a URL parameter
+
+
+JQUERY
+  
+  $.getJSON(url[,data][,success])
+    Loads json data from the server using GET HTTP request. Params:
+      url: 
+        to which request is sent
+      data: 
+        data sent to the server with the request. Data is appended to the URL as a query string. If data param is a plain object, it is converted into a string and url-encoded before it is appended to the url.
+      success: 
+        cb if request succeeds
+
+
+

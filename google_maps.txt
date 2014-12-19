@@ -23,12 +23,32 @@ GENERAL
 
     Each line of latitude (parallel lines), or each degree, separates about 69 miles of distance. There are 60 minutes in one degree. Latitudes are measured relative to the equator (0 degrees). Longitudes are not parallel, and all intersect at the north and south poles.
 
+    Bounds represent the rectangle viewport of the map. It is defined by a North-East point and a South-West point which forms the rectangle together.
 
-Class Objects:
+    Controls are widgets which are positioned absolute on top of the map, while overlays move with the underlying map.
+
+
+Map object
+    
+    Create map object:
+        var map = new google.maps.Map(div, options)
+        For every map options, there is a 'set' and 'get' function. For example: map.getZoom(), map.setPosition()
+
+Other Objects:
     
     LatLng: a point in geographical coordinates using lat/lng. You cannot modify the coordinates of a LatLng object. If you want to compute another point, you need to create a new one. 
     google.maps.LatLng(lat,lng)
 
+    Markers
+        Markers are constructed using the google.maps.Marker({options}). Markers are removed by setting its map option to null:
+
+            var market = new google.maps.Marker({map: map});
+            market.setMap(null);
+
+        To handle multiple markers, contain them inside an array and call setMap() to each. You can remove all markers by setting this array length to 0;
+
+    MapType 
+        Holds information about the types of maps. Each MapType object holds methods that handle retrieval and release of times and properties that define its visual behaviour.
 
 DRAWING USING OVERLAYS
 
@@ -47,6 +67,13 @@ DRAWING USING OVERLAYS
         Polygons represent an area on a map using arbitrary shapes. Like polylines, polygons represent an ordered sequence of locations. Unlike polylines, polygons define a region that they enclose. 
 
     Ground Overlays: used to place an image on a map
+
+Places
+    
+    Sign up for Places api key
+
+    use <autocomplete_obj>.getPlace() to get details about the selected place
+
 
 
 References
