@@ -1,9 +1,42 @@
 GENERAL
 
+  How it works
+    A request (containing url, data object parameters, and cb function) is sent to the server, which then sends back a response. A cb function is prepared to handle that response data. 
+
   An ajax request works with a URL parameter
+
+  JSON may cause silent fails, so it is important now not to hand edit json objects.
+
+  Due to browser security restrictions, most ajax requests are subjected to the 'same origin policy' and cannot retrieve data from another domain, subdomain, protocol or port. JSONP and Script requests do not follow this policy.
+
+  JSONP (JSON with Padding) can be used to request data across different domains, and do not abide by the same domain policy. The JSONP response received from the server is wrapped inside a function. JSONP has no built in error handling, however this can be resolved using the setTimeout function
+
+  As of v1.5, all jquery ajax methods return a superset of the XMLHTTPRequest object. This 'jquery XHR object', or jqXHR, returned by the $.getJSON() method implements the Promise interface.
+
+  The Promise interface allows ajax methods (including .getJSON) to chain multiple .done(), .always() and .fail() callbacks in a single request, and even assign to these cb when the request may have been completed. If the request is complete, the cb is immediately called.
+
+  The Deferred Object 
+    this is a chainable utility object which can register multiple callbacks into callback queues, invoking callback queues and relay the success or failure state of any function.
+
+      var jqxhr = $.getJSON('test.json', function() {
+        console.log('success');
+      }).done(function(){
+        console.log('success again');
+      }).fail(function() {
+        console.log('error');
+      }).always(function() {
+        console.log('complete');
+      });
+
+      jqxhr.done(function() {
+        console.log('success again');
+      });
 
 
 JQUERY
+******
+
+  Sends an HTTP request to the server asking for a response of json data. 
   
   $.getJSON(url[,data][,success])
     Loads json data from the server using GET HTTP request. Params:
@@ -13,6 +46,35 @@ JQUERY
         data sent to the server with the request. Data is appended to the URL as a query string. If data param is a plain object, it is converted into a string and url-encoded before it is appended to the url.
       success: 
         cb if request succeeds
+
+  $.param(obj)
+    Creates a serialized representation of an array or object, suitable for use in URl or ajax request.
+
+  $.parseJSON(stringed_json)
+    takes a stringed json and returns the json object. 
+
+VERSIONING
+  As of jquery1.5, the success function receives a jqXHR object. In jquery1.4, it received an XMLHttpRequest object.
+
+
+AJAX
+****
+
+  Performs an asynchronous HTTP request.
+  
+  $.ajax(url [,settings])
+    url (string):
+      string url to which request is sent
+    settings (plain object):
+      key-value pairs of ajax request configuration. Includes: accepts, async, beforeSend, etc.
+
+  $.ajaxSetup(obj) [Not Recommended]
+    Sets default values for all future ajax requests and its derivatives, such as .get()
+
+
+  Versioning
+    As of v1.8, the use of 'async: false' with jqXHR ($.Deferred) is depreciated. You must use success/error/complete callbacks instead of jqXHR's done/fail/complete
+
 
 
 

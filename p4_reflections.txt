@@ -3,7 +3,7 @@ WEBSITE OPTIMIZATION GOALS
 	Optimize webfonts
 	PageSpeed score of 90+
 	Code is neatly formatted
-	Comments are thorough and concise. Code is self-documenting. 
+	Comments are thorough and concise. Code is self-documenting.
 	A README file included which details all the steps required to run the app successfully
 
 Critical Rendering Path
@@ -27,15 +27,15 @@ Critical Rendering Path
 
 	The browser has a 'preload scanner' which peaks ahead for critical files like .js and request downloads of these files. http://andydavies.me/blog/2013/10/22/how-the-browser-pre-loader-makes-pages-load-faster/
 
-	When ATF resources to be requested are more than 14.6kb compressed, additional round trips is required. 
+	When ATF resources to be requested are more than 14.6kb compressed, additional round trips is required.
 
 Tokenizer
-	Whenever we encounter an HTML tag, the browser emits a token. For example: "StartTag: HTML" token when the browser encounters <html>. The same process is used to identify all other elements in the document (StartTag:head, Tag: meta, StartTag: body, StartTag: p, hello, EngTag: HTML). Each node would still contain its respective attributes. For example: the <img> tag would contain its src and alt attributes. 
+	Whenever we encounter an HTML tag, the browser emits a token. For example: "StartTag: HTML" token when the browser encounters <html>. The same process is used to identify all other elements in the document (StartTag:head, Tag: meta, StartTag: body, StartTag: p, hello, EngTag: HTML). Each node would still contain its respective attributes. For example: the <img> tag would contain its src and alt attributes.
 
 1. The DOM
-	When the HTML page (example: index.html) is requested and received, the DOM begins constructing by parsing HTML. 
+	When the HTML page (example: index.html) is requested and received, the DOM begins constructing by parsing HTML.
 
-	Once the tokenizer identifies all nodes, and establish the relationships among them (parent or child), the DOM is created as a result. The browser constructs the DOM incrementally. 
+	Once the tokenizer identifies all nodes, and establish the relationships among them (parent or child), the DOM is created as a result. The browser constructs the DOM incrementally.
 
 	A single DOM node consists of both its StartTag and EndTag token.
 
@@ -43,52 +43,52 @@ Tokenizer
 
 
 2. The CSSOM
-	
+
 	Unlike DOM building, CSSOM building is not incremental; the entire CSS file must be loaded before further action.
 
-	All visibe content is part of the BODY node. 
+	All visibe content is part of the BODY node.
 
-	By default, CSS is render-blocking; the browser blocks rendering until it has received all CSS files. To make CSS files non-render blocking, we can use CSS Media Queries to only load files when they meet the conditions in which they are required. 
+	By default, CSS is render-blocking; the browser blocks rendering until it has received all CSS files. To make CSS files non-render blocking, we can use CSS Media Queries to only load files when they meet the conditions in which they are required.
 
-	While CSSOM-building blocks rendering/painting, it does not block DOM-building. Only when both CSSOM and DOM are built can we begin rendering. 
+	While CSSOM-building blocks rendering/painting, it does not block DOM-building. Only when both CSSOM and DOM are built can we begin rendering.
 
-	The more general the style selector, the easier its css is to evaluate. A specific selector need to find its target to be styled, and then move up the DOM tree to verify if the selection conditions are met before styling it. For example: 
+	The more general the style selector, the easier its css is to evaluate. A specific selector need to find its target to be styled, and then move up the DOM tree to verify if the selection conditions are met before styling it. For example:
 		div p {...}
-		The <p> tags are identified and then the browser needs to walk 'upwards' the DOM to see if it has a 'div' parent. General selectors do not have this extra step of work. 
+		The <p> tags are identified and then the browser needs to walk 'upwards' the DOM to see if it has a 'div' parent. General selectors do not have this extra step of work.
 
-	Before you rewrite your CSS rules, you should record the time the steps take in the timeline. Measure first, the optimize as needed. 
+	Before you rewrite your CSS rules, you should record the time the steps take in the timeline. Measure first, the optimize as needed.
 
 	Before the CSSOM is built, javascript codes are blocked from executing. There, CSS can block HTML rendering and javascript execution.
 
-	CSS with matching media queries are downloaded with priority as it is required to construct the CSSOM. 
+	CSS with matching media queries are downloaded with priority as it is required to construct the CSSOM.
 
 3. The Render Tree
-	Built using the DOM and CSSOM. 
+	Built using the DOM and CSSOM.
 	Captures both content and the styles.
-	Only captures visible content; contains only the nodes required to render a page. If a node has a style of display:none, the render tree ignores this since it is not visible. The <head> section also contains no visible content, so that is also pruned or ignored. 
+	Only captures visible content; contains only the nodes required to render a page. If a node has a style of display:none, the render tree ignores this since it is not visible. The <head> section also contains no visible content, so that is also pruned or ignored.
 
 	Paint is the final step of the rendering tree, and renders the pixels to the screen.
 
-4. Layout 
-	Figures out where to put the elements on the page. The 'layout' event in the Timeline renders the page's position. Whenever there is a change in the content, device orientation, or the css in the page, a new layout event may be triggered. To optimize, and to avoid multiple layout events, it is recommended to 'batch updates'. 
+4. Layout
+	Figures out where to put the elements on the page. The 'layout' event in the Timeline renders the page's position. Whenever there is a change in the content, device orientation, or the css in the page, a new layout event may be triggered. To optimize, and to avoid multiple layout events, it is recommended to 'batch updates'.
 
 5. Paint
-	Paints pixels to the browser. Paint event is triggered when changes are made, similar to Layout. 
+	Paints pixels to the browser. Paint event is triggered when changes are made, similar to Layout.
 
 
 BLOCKING
-	Javascript: blocks HTML Parsing (hence DOM construction), unless declared async. Inline JS will not be spotted by the pre-load scanner which only looks for src/href. 
+	Javascript: blocks HTML Parsing (hence DOM construction), unless declared async. Inline JS will not be spotted by the pre-load scanner which only looks for src/href.
 
-	Loading CSS: Blocks JS execution; blocks rendering. 
+	Loading CSS: Blocks JS execution; blocks rendering.
 
 	When the HTML Parser encounters a JS code, the DOM parsing pauses and gives control to the JS runtime. If the CSSOM has not finished building at this point, the JS execution pauses until this is done. Therefore, CSSOM blocks JS execution, which in turn blocks DOM construction.
 
 Dev Tool
 	Timeline > Parse HTML > Recalculate Style (EVENT)
-		Computes all the styles for the contents which are visible on the screen. 
+		Computes all the styles for the contents which are visible on the screen.
 
 FRAME
-	A frame represents the work that the browser must do to render a single grame of content to the display - dun js, handle events, update the dom, and change styls, layout and paint the page. 
+	A frame represents the work that the browser must do to render a single grame of content to the display - run js, handle events, update the dom, and change styles, layout and paint the page.
 
 Javascript
 	Can modify the DOM and CSSOM
@@ -102,10 +102,10 @@ Javascript
 
 Optimizing:
 	1. Minify, compress, cache (html, css, js)
-	2. Minimize use of render-blocking resources (css); use media queries and inline css 
+	2. Minimize use of render-blocking resources (css); use media queries and inline css
 	3. Minimize use of parser blocking resources (js); defer js execution, use async
 
-	
+
 	RULES: https://www.udacity.com/course/viewer#!/c-ud884/l-1469569174/m-1565708614
 	Page should ideally be <14kb
 
@@ -117,7 +117,7 @@ Optimizing:
 	Prioritize critical CSS
 			https://developers.google.com/speed/pagespeed/service/PrioritizeCriticalCss
 	Text Compression with gZIP
-		https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/optimize-encoding-and-transfer#text-compression-with-gzip	
+		https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/optimize-encoding-and-transfer#text-compression-with-gzip
 	HTTP Caching
 		https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching
 
@@ -135,9 +135,9 @@ Optimizing:
     </script>
 
 FRAME RATE AND JANK
-	Frame rate is the rate at which images are consecutively produced on the screen. 
+	Frame rate is the rate at which images are consecutively produced on the screen.
 
-	The paint speed directly influences frame rate, and paint is influenced by long js execution, downloads and similar things. 
+	The paint speed directly influences frame rate, and paint is influenced by long js execution, downloads and similar things.
 
 	Jank is the break in consistent frame rate.
 
@@ -160,18 +160,18 @@ FRAME RATE AND JANK
 
 
 Webfonts
-	
-	@font-face defines the location of a font resource, style characteristics, and Unicode codepoints. Such definitions are used to define a 'fon-family' for which the browser can download and use in the current page. 
+
+	@font-face defines the location of a font resource, style characteristics, and Unicode codepoints. Such definitions are used to define a 'font-family' for which the browser can download and use in the current page.
 
 	Font requests are not initiated until the browser knows that the font is required to render some content on the page. Therefore, font requests are delayed until render tree is constructed, which delays text rendering.
 
 	Safari holds rendering until font is downloaded. Chrome/Firefox waits 3 seconds before using a fallback font, and re-renders font once downloaded. IE immediately uses fallback font and rerenders upon download completion.
 
-	Font Loading API allows us to implement custom font loading and rendering strategies, to override default lazyload. 
+	Font Loading API allows us to implement custom font loading and rendering strategies, to override default lazyload.
 
 	Font inlining overrides lazyload font loading in older browsers.
 
-	Since CSS with matching media queries are downloaded with priority, including the font data into the stylesheet forces the browser to download. This overrides the lazyloading of having to wait for the render tree to complete. 
+	Since CSS with matching media queries are downloaded with priority, including the font data into the stylesheet forces the browser to download. This overrides the lazyloading of having to wait for the render tree to complete.
 
 
 

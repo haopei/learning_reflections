@@ -1,0 +1,16 @@
+GENERAL
+  
+  Separation of concerns: change one component without disrupting another. The main task is to separate the model from the view.
+
+  The view never speaks to the model or vice versa. The octopus is the middleman. The View interacts with the Model through the methods defined inside Octopus. The view and model never modify each other directly; only via the Octopus.
+    
+    View
+      The user interface for getting and viewing data
+
+    Model:
+      data is stored
+
+    Octopus:
+      Connect the model and view together, and separate their concerns.
+
+

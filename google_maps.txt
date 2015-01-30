@@ -54,7 +54,7 @@ DRAWING USING OVERLAYS
 
     Overlays are objects added to the map to designate points, lines, areas or a collection of objects. Overlay objects are tied to longitude and latitude coordinates so they move when dragged or map is zoomed. Overlay types include: markers, info windows, polylines, polygons, circles/rectangles, symbols, ground overlays, custom overlays.
 
-    Markers: indicate single locationso n a map. Customizable with custom image and colour. Works with Info Windows to provide contextual information.     
+    Markers: indicate single location on a map. Customizable with custom image and colour. Works with Info Windows to provide contextual information.     
 
     Symbols are svgs which can be used to customize the images of markers or add images to polylines. See: Symbols.
 
@@ -74,10 +74,37 @@ Places
 
     use <autocomplete_obj>.getPlace() to get details about the selected place
 
+    With places, you can do these searches: nearby, text, radar, place details request. 
+
+    Nearby search: must include a location via either LatLngBounds, or a circular area (latlng + radius)
+
+
+GEOCODING API
+    
+    Geocoding is the process of converting an address string to a geographic coordinate. Reverse geocoding is the conversion of coordinates to human-readable address. Example:
+
+        // returns json object
+        https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=API_KEY
+
+    Google Geocoding API provides geocoding service over HTTP request. 
+
+    Include geocode api key as 'key' parameter in request.
+
+    Geocode API can only be used with Google Maps. Geocoding results without displaying them on map is prohibited.
+
+    Geocode Request parameters include address or 'components' (required), bounds (for biased results), api key,language, region (region biasing using top level domain), components filter (return from specific area). Example of components:
+        https://maps.googleapis.com/maps/api/geocode/json?address=santa+cruz&components=country:ES&key=AIzaSyB6tnYAqdRsoSx6iA5m7OV0cdtsGktBtD4
+
+    Geocode request's response contains 'results', and 'status' root elements. Results contain address_components, formatted_address, geometry, and types. Status contains status code.
+
+    Geocode geometry contains information about 'location' (lat/lng values)
 
 
 References
 
     Google Maps API Reference
     https://developers.google.com/maps/documentation/javascript/reference
+
+    Geocoding:
+    https://developers.google.com/maps/documentation/geocoding/
 

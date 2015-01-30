@@ -1,0 +1,28 @@
+  KnockoutJS
+
+    Observables are functions.
+
+    Using observables, KO notifies the ViewModel about the update which has happened in the Model, and KO also figures out which part of the View needs to be update accordingly.
+
+    //instantiate value of num
+    var num = ko.observable(43); 
+    
+    // change the value of num variable, and
+    // update the dom same time
+    num(44);
+
+    Observable arrays: KO will notice which part of the array is changed, and only make that particular change inside the View.
+
+    data-bind attributes link the DOM with the ViewModel. They perform updates in both direction. That is, bindings notice changes in the view model and updates the DOM; bindings also notice DOM events and updates the viewmodel properties accordingly.
+
+    Automatic dependency tracking will link all of your data inside the Model, View, and ViewModel so that changes will take place with minimum refresh.
+
+    when you have a click binding, and you click on something, it passes in the object you clicked on as a parameter of a function
+
+CatClicker App Checklist
+  
+  - separate model view, viewmodel
+  - use var self = this, to keep cleaner separation of scope access
+  - model constructor Cat should take a cat object as a parameter. Example:
+      var data = {"name": "Meowth"};
+      new Cat(data);

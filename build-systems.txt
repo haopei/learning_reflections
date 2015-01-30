@@ -29,10 +29,28 @@ GULP (Task Runner)
 		$ npm install gulp -g
 
 	Install a gulp plugin in project dir
-		$ npm install gulp-uglify --save-dev //save as development dependency
+		$ npm install gulp-uglify --save-dev [or -S]// save as development dependency
+
+	gulp.src('js/*.js');
+		Run tasks on source files in a directory
+
+	gulp.dest('minjs')
+
+	gulp.watch(files, list_of_tasks)
+		Watches a folder for file changes and runs the list_of_tasks on that event
 
 	gulp.run()
 		runs tasks with maximum concurrency
+
+	Gulp Task Anatomy
+		1. require gulp, and gulp-<plugin>
+		2. define task with gulp.task()
+		3. pipe() together gulp.src(), tasks, and gulp.dest()
+		4. add to default list of tasks
+
+		Advanced
+			5. specify gulp.watch() task
+			6. add to end of 'default' task's list
 
 
 SASS 
@@ -52,6 +70,9 @@ BOWER (Frontend Library Package Manager)
 		[-S] saves to bower.json file
 		Example: bower install jquery#1.9.2 -S
 
+	Get file paths
+		$ bower list --paths
+
 	Check bower list of installed libraries per project
 		$ bower list [--path]
 
@@ -70,6 +91,8 @@ GETTING STARTED
 
 	Install gulp
 		$ npm install gulp --save-dev
+
+		--save-dev saves for development. --save saves for production.
 
 	Install bower
 		$ npm install bower -g
