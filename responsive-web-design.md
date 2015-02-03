@@ -5,7 +5,7 @@
 - Resolution in the viewport has Device Independent Pixel (DIP).
 - Device screens are made up of real pixels, and their viewport has a Device Pixel radio.
 - The device pixel ratio is the ratio between the CSS pixels and the device pixels.
-- Fonts: the optimal characters per line (CPL) is ~65. Use atleast 16px / 1.2 lineheight
+- Fonts: the optimal characters per line (CPL) is ~65. Use atleast 16px / 1.2em line-height
 
 ## Methods
 - Use the viewport meta: <meta name="viewport" content="width=device-width, initial-scale: 1.0">
