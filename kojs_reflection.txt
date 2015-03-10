@@ -1,0 +1,83 @@
+KO depends on jquery, so learn jquery first.
+
+GENERAL
+
+	ko.js is build around three concepts: observables and dependency tracking, declarative bindings, and templating.
+
+	data-bind attribute tells ko to associate viewmodel properties with DOM elements
+
+	Observables
+		observables are properties that automatically sends out notifications whenever their values have changed.
+
+	MVVM (Model, View, View-Model)
+		is a design pattern for building sophiscated UI by splitting it into three parts: 
+
+		Model: the stored data of your application.
+
+		View-model: a pure code representation of the data and behaviour of the UI. Example:
+
+			var Person = function(fname, lname) {
+				this.fname = ko.observable(fname);
+				this.lname = ko.observable(lname);
+				this.capitalizeLastName = function() {
+					return this.lname + " " + this.firstName;
+				}
+			}
+
+		View: the visible, interactive UI representing the state of the view-model.It displays information from the view model, and updates whenever the state of the view-model changes.
+
+		When you update underlying data, the UI changes.
+
+BINDING CONTEXT
+
+	A binding context is an object that holds data that you can reference from your bindings. 
+
+	When applying bindings, ko automatically creates and manages a hierarchy of binding contexts. The root object in the hierarchy is viewModel in:
+
+		ko.applyBindings(viewModel);
+
+	Each time you use a control-flow binding (with, foreach), it consequently creates a child-binding context that refers to the nested view model data. 
+
+	Nested-binding Context
+		The context which is within a control-flow binding (foreach, with) which creates child-binding contexts.
+
+	Special binding properties:
+
+		$parent (refers to object)
+			This is the viewModel object in the parent context, the one immediately outside the current context. In the root context, this is undefined. 
+
+		$parents (refers to array of objects)
+			This is an ARRAY representing all the parent viewModels.
+
+		$parentContext (refers to context)
+			The binding context object at the parent level.
+
+		$root (refers to object)
+			This is the top-most parent context, or the main viewModel object in the root context found inside ko.applyBindings(viewModel);. The root context is equal to:
+
+				$parents[$parents.length - 1];
+
+		$data (refers to object)
+			This is the viewModel object in the current context. Inside the root context, $data === $root refers to the same object. Inside a nested-binding context (with child-binding), $data is set to the current data item. 
+
+		with
+			decendent elements are bound within the context of the with-specified object. Usage: "with: <object_property>" 
+
+CODE
+	
+	ko.obsevable(parameter)
+		listens to the changes of a parameter of a model. When a value is an observable, you need to invoke them as functions to get its value.
+
+	ko.pureComputed(function(){...}, this);
+		does computation with existing data
+
+	ko.applyBindings(view_model_to_bind [,some_dom_element]);
+		some_dom_element restricts the binding to that element and its children. Example: 
+			var elem = document.getElementById('myDiv');
+			ko.applyBindings(Person, elem)
+
+	You can bind a view (UI) to a model (stored data) using declarative binding. Example: 
+
+		var Apartment = { 'bed': 2, 'bath': 0 }
+		ko.applyBindings(Apartment);
+		<span data-bind="text: bed"></span>	=== <span>2</span>

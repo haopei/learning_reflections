@@ -92,7 +92,7 @@ FRAME
 
 Javascript
 	Can modify the DOM and CSSOM
-	JS execution is parser-blocking and is blocked by CSSOM's building; when the <script> tag is encountered, unless script is declared as async, the HTML parser pauses building the DOM, hands it over to the JS runtime, and finishes executing the inline JS code first. Then, it resumes building the DOM.
+	JS execution is parser-blocking, and is blocked by CSSOM's building; when the <script> tag is encountered, unless script is declared as async, the HTML parser pauses building the DOM, hands it over to the JS runtime, and finishes executing the inline JS code first. Then, it resumes building the DOM.
 
 	Scripts which do not affect the DOM (example: analytics) and should not block rendering. One way to do this is to use the windows.onload event to execute the script after the document has finished building. A better way is to use the async declaration in the <script src="analytics.js" async> tag.
 
@@ -122,18 +122,6 @@ Optimizing:
 		https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching
 
 
-    <script>
-      var cb = function() {
-        var l = document.createElement('link'); l.rel = 'stylesheet';
-        l.href = 'css/style.css';
-        var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
-      };
-      var raf = requestAnimationFrame || mozRequestAnimationFrame ||
-          webkitRequestAnimationFrame || msRequestAnimationFrame;
-      if (raf) raf(cb);
-      else window.addEventListener('load', cb);
-    </script>
-
 FRAME RATE AND JANK
 	Frame rate is the rate at which images are consecutively produced on the screen.
 
@@ -141,7 +129,7 @@ FRAME RATE AND JANK
 
 	Jank is the break in consistent frame rate.
 
-	If you’re targeting 60 FPS, then to match the refresh rate of the devices we commonly use, you’ll have a 16.7-millisecond budget in which to complete everything — JavaScript, layout, image decoding and resizing, painting, compositing — everything.
+	If you’re targeting 60 FPS, to match the refresh rate of the devices we commonly use, you’ll have a 16.7-millisecond budget in which to complete everything — JavaScript, layout, image decoding and resizing, painting, compositing — everything.
 
 	If you’re aiming for low-end devices, such as mobile phones, then that frame budget of 16 milliseconds is really more like 8 to 10 milliseconds.
 
